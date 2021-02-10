@@ -1,7 +1,7 @@
-import { AxiosRequestConfig } from './types';
-import { AxiosPromise, AxiosResponse } from './types/index';
-import { parseHeaders } from './helpers/headers';
-import { createError } from './helpers/error';
+import { AxiosRequestConfig } from '../types';
+import { AxiosPromise, AxiosResponse } from '../types/index';
+import { parseHeaders } from '../helpers/headers';
+import { createError } from '../helpers/error';
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     return new Promise((resolve, reject) => {
@@ -17,7 +17,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         }
 
         // yibu
-        request.open(method.toUpperCase(), url, true)
+        request.open(method.toUpperCase(), url!, true)
 
         request.onreadystatechange = function handleLoad() {
             if (request.readyState !== 4) { // 为4接收到 不为4没接收到
