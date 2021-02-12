@@ -54,7 +54,6 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
                 request.setRequestHeader(name, headers[name])
             }
         })
-
         // 把字符串传给xmlhttprequest（）
         request.send(data)
         function handleResponse(response: AxiosResponse): void {

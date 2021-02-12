@@ -2,9 +2,9 @@ import { AxiosRequestConfig } from '../types'
 import xhr from './xhr';
 import { buildURL } from '../helpers/url';
 import { transformRequest, transformResponse } from '../helpers/data';
-import { processHeaders } from '../helpers/headers';
+import { processHeaders, flattenHeaders } from '../helpers/headers';
 import { AxiosPromise, AxiosResponse } from '../types/index';
-export default  function axios(config: AxiosRequestConfig): AxiosPromise {
+export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
     processConfig(config)
     return xhr(config).then(res => {
         // 拿到响应对象  对数据进行 处理
@@ -17,6 +17,7 @@ function processConfig(config: AxiosRequestConfig): void {
     config.headers = transformHeaders(config)
     console.log(config.headers);
     config.data = transformRequestData(config);
+    config.headers = flattenHeaders(config.headers, config.method!);// 保证运行时肯定存在即可
 }
 function transformURL(config: AxiosRequestConfig): string {
     const { url, params } = config

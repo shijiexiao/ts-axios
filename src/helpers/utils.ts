@@ -16,3 +16,26 @@ export function extend<T, U>(to: T, from: U): T & U {
     }
     return to as T & U
 }
+export function deepMerge(...objs: any): any {
+    // 普通对象的深拷贝
+    const result = Object.create(null)
+    objs.forEach(obj => {
+        // val1 val2 
+        if (obj) {
+            Object.keys(obj).forEach(key => {
+                const val = obj[key]
+                // 遍历对象拿到值
+                if (isPlainObject(val)) {
+                    // 如果还是一个dui x
+                    if (isPlainObject(result[key])) {
+                        result[key] = deepMerge(result[key], val)
+                    }
+                    result[key] = deepMerge(val)
+                } else {
+                    result[key] = val
+                }
+            })
+        }
+    })
+    return result
+}
