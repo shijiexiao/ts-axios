@@ -13,7 +13,8 @@ export interface AxiosRequestConfig {
     headers?: any
     responseType?: XMLHttpRequestResponseType, // 响应的数据类型
     timeout?: number
-
+    transformRequest?: AxiosTransformer | AxiosTransformer[]
+    transformResponse?: AxiosTransformer | AxiosTransformer[]
     [propName: string]: any
 }
 export interface AxiosResponse<T = any> {
@@ -67,3 +68,8 @@ export interface RejectedFn {
     (error: any): any
 }
 // 拦截器接口完毕
+
+
+export interface AxiosTransformer {
+    (data: any, headers?: any): any
+}
