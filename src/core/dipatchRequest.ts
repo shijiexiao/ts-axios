@@ -6,6 +6,7 @@ import { processHeaders, flattenHeaders } from '../helpers/headers';
 import { AxiosPromise, AxiosResponse } from '../types/index';
 import transform from './transform';
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
+    throwIfCancellationRequested(config)
     processConfig(config)
     return xhr(config).then(res => {
         // 拿到响应对象  对数据进行 处理
@@ -30,4 +31,11 @@ function transformURL(config: AxiosRequestConfig): string {
 function transformResponseData(res: AxiosResponse): AxiosResponse {
     res.data = transform(res.data, res.headers, res.config.transformResponse)
     return res
+}
+
+
+function throwIfCancellationRequested(config: AxiosRequestConfig): void {
+    if (config.cancelToken) {
+        config.cancelToken.throwIfRequested()
+    }
 }

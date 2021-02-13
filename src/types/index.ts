@@ -15,6 +15,10 @@ export interface AxiosRequestConfig {
     timeout?: number
     transformRequest?: AxiosTransformer | AxiosTransformer[]
     transformResponse?: AxiosTransformer | AxiosTransformer[]
+
+    cancelToken?: CancelToken
+    withCredentials?: boolean
+
     [propName: string]: any
 }
 export interface AxiosResponse<T = any> {
@@ -55,6 +59,14 @@ export interface AxiosInstance extends Axios {
     <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
     <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 }
+export interface AxiosStatic extends AxiosInstance {
+    // 实现一个静态方法
+    create(config?: AxiosRequestConfig): AxiosInstance
+
+    CancelToken: CancelTokenStatic
+    Cancel: CancelStatic,
+    isCancel: (value: any) => boolean
+}
 
 // 拦截器接口完毕
 export interface AxiosInterceptorManager<T> {
@@ -72,4 +84,36 @@ export interface RejectedFn {
 
 export interface AxiosTransformer {
     (data: any, headers?: any): any
+}
+
+// 因此在这个场景下，我们除了做 debounce，还希望后面的请求发出去的时候，如果前面的请求还没有响应，我们可以把前面的请求取消。
+
+export interface CancelToken { // 实力类型
+    promise: Promise<Cancel>
+    reason?: Cancel
+
+    throwIfRequested(): void
+}
+export interface Canceler {
+    (message?: string): void
+}
+export interface CancelExecutor {
+    (cancel: Canceler): void
+}
+
+export interface CancelTokenSource {
+    token: CancelToken
+    cancel: Canceler
+}
+
+export interface CancelTokenStatic { // 类类型
+    new(excutor: CancelExecutor): CancelToken
+
+    source(): CancelTokenSource
+}
+export interface Cancel {
+    message?: string
+}
+export interface CancelStatic {
+    new(message?: string): Cancel
 }
