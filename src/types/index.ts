@@ -18,7 +18,14 @@ export interface AxiosRequestConfig {
 
     cancelToken?: CancelToken
     withCredentials?: boolean
-
+    xsrfCookieName?: string
+    xsrfHeaderName?: string
+    onDownloadProgress?: (e: ProgressEvent) => void
+    onUploadProgress?: (e: ProgressEvent) => void
+    auth?: AxiosBasicCredentials
+    validateStatus?: (status: number) => boolean
+    paramsSerializer?: (params: any) => string
+    baseURL?: string
     [propName: string]: any
 }
 export interface AxiosResponse<T = any> {
@@ -107,8 +114,10 @@ export interface CancelTokenSource {
 }
 
 export interface CancelTokenStatic { // 类类型
+    // promise: Promise<Cancel>
+    // reason?: Cancel
     new(excutor: CancelExecutor): CancelToken
-
+    // throwIfRequested(): void
     source(): CancelTokenSource
 }
 export interface Cancel {
@@ -116,4 +125,8 @@ export interface Cancel {
 }
 export interface CancelStatic {
     new(message?: string): Cancel
+}
+export interface AxiosBasicCredentials {
+    username: string
+    password: string
 }

@@ -24,8 +24,8 @@ function processConfig(config: AxiosRequestConfig): void {
     config.headers = flattenHeaders(config.headers, config.method!);// 保证运行时肯定存在即可
 }
 function transformURL(config: AxiosRequestConfig): string {
-    const { url, params } = config
-    return buildURL(url!, params); // 判断不为空直接后main加个感叹号
+    const { url, params ,paramsSerializer} = config
+    return buildURL(url!, params,paramsSerializer); // 判断不为空直接后main加个感叹号
 }
 
 function transformResponseData(res: AxiosResponse): AxiosResponse {

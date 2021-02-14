@@ -1,3 +1,4 @@
+
 const toString = Object.prototype.toString
 export function isDate(val: any): val is Date {
     return toString.call(val) === '[object Date]'
@@ -16,7 +17,7 @@ export function extend<T, U>(to: T, from: U): T & U {
     }
     return to as T & U
 }
-export function deepMerge(...objs: any): any {
+export function deepMerge(...objs: any[]): any {
     // 普通对象的深拷贝
     const result = Object.create(null)
     objs.forEach(obj => {
@@ -38,4 +39,12 @@ export function deepMerge(...objs: any): any {
         }
     })
     return result
+}
+
+export function isFormData(val: any): val is FormData {
+    return typeof val !== 'undefined' && val instanceof FormData
+}
+
+export function isURLSearchParams(val: any): val is URLSearchParams {
+    return typeof val !== 'undefined' && val instanceof URLSearchParams
 }

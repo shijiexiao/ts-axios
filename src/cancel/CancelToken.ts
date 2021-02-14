@@ -8,7 +8,7 @@ export default class CancelToken {
     promise: Promise<Cancel>
     reason?: Cancel
     constructor(executor: CancelExecutor) {
-        let resolvePromise: ResolvePromise
+        let resolvePromise: any;
         this.promise = new Promise<Cancel>(resolve => {
             resolvePromise = resolve
             // resolvePromise指向resolve函数
