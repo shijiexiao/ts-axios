@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosPromise, Method, AxiosResponse, ResolvedFn, RejectedFn } from '../types/index';
-import dispatchRequest from './dipatchRequest'
 import InterceptorManager from './InterceptorManager';
 import mergeConfig from './mergeConfig';
+import dispatchRequest, { transformURL } from './dipatchRequest';
 
 interface Interceptors {
     request: InterceptorManager<AxiosRequestConfig>
@@ -98,5 +98,9 @@ export default class Axios {
             url,
             data
         }))
+    }
+    getUri(config?: AxiosRequestConfig): string {
+        config = mergeConfig(this.defaults, config!)
+        return transformURL(config)
     }
 }

@@ -24,4 +24,19 @@ axios.CancelToken = CancelToken
 axios.Cancel = Cancel
 axios.isCancel = isCancel
 
+axios.all = function all(promises) {
+    return Promise.all(promises)
+}
+
+axios.spread = function spread(callback) {
+    console.log(callback);
+    return function (arr) {
+        console.log(arr);
+        return callback.apply(null, arr)
+    }
+    // console.log(wrap);
+    // return wrap
+}
+axios.Axios = Axios
+
 export default axios;

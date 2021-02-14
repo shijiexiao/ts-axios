@@ -1,10 +1,9 @@
-import { AxiosRequestConfig } from '../types'
-import xhr from './xhr';
-import { buildURL } from '../helpers/url';
-import { transformRequest, transformResponse } from '../helpers/data';
-import { processHeaders, flattenHeaders } from '../helpers/headers';
-import { AxiosPromise, AxiosResponse } from '../types/index';
-import transform from './transform';
+import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '../types'
+import xhr from './xhr'
+import { buildURL, isAbsoluteURL, combineURL } from '../helpers/url'
+import { flattenHeaders } from '../helpers/headers'
+import transform from './transform'
+
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
     throwIfCancellationRequested(config)
     processConfig(config)
@@ -12,6 +11,11 @@ export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromis
         // 拿到响应对象  对数据进行 处理
         return transformResponseData(res)
         // return res
+    }, e => {
+        if (e && e.response) {
+            e.response = transformResponseData(e.response)
+        }
+        return Promise.reject(e)
     })
 }
 function processConfig(config: AxiosRequestConfig): void {
@@ -23,9 +27,15 @@ function processConfig(config: AxiosRequestConfig): void {
 
     config.headers = flattenHeaders(config.headers, config.method!);// 保证运行时肯定存在即可
 }
-function transformURL(config: AxiosRequestConfig): string {
-    const { url, params ,paramsSerializer} = config
-    return buildURL(url!, params,paramsSerializer); // 判断不为空直接后main加个感叹号
+export function transformURL(config: AxiosRequestConfig): string {
+    let { url, params, paramsSerializer, baseURL } = config
+    // 首先看有没有配置baseurl
+    // 然后再看传过来的是不是相对地址
+    // 再拼接baseurl和相对地址成为绝对地址
+    if (baseURL && !isAbsoluteURL(url!)) {
+        url = combineURL(baseURL, url)
+    }
+    return buildURL(url!, params, paramsSerializer); // 判断不为空直接后main加个感叹号
 }
 
 function transformResponseData(res: AxiosResponse): AxiosResponse {
