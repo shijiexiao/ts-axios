@@ -95,7 +95,7 @@ axios({
 
 const paramsString = 'q=URLUtils.searchParams&topic=api'
 const searchParams = new URLSearchParams(paramsString)
-// Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+// Content-Type:application/x-www-form-urlencoded;charset=UTF-8
 // 浏览器自动给我们做的事
 axios({
   method: 'post',

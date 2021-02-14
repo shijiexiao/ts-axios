@@ -1,6 +1,6 @@
 {
-  "name": "ts-axios",
-  "version": "0.0.0",
+  "name": "jc-axios",
+  "version": "0.3.5",
   "description": "",
   "keywords": [],
   "main": "dist/axios.umd.js",
@@ -9,10 +9,10 @@
   "files": [
     "dist"
   ],
-  "author": "ustbhuangyi <280309453@qq.com>",
+  "author": "jiejackhuang <jie305998@163.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ustbhuangyi/ts-axios"
+    "url": "https://github.com/shijiexiao/ts-axios"
   },
   "license": "MIT",
   "engines": {
@@ -26,7 +26,7 @@
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "test:prod": "npm run lint",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
@@ -34,7 +34,7 @@
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
     "travis-deploy-once": "travis-deploy-once",
-    "prepub": "npm run test:prod && npm run build",
+    "prepub": "npm run test:prod",
     "pub": "sh release.sh"
   },
   "lint-staged": {
@@ -66,9 +66,9 @@
     "coverageThreshold": {
       "global": {
         "branches": 90,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
       }
     },
     "collectCoverageFrom": [
@@ -91,11 +91,11 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@types/jasmine-ajax": "^3.1.39",
     "@types/jest": "^24.0.13",
-    "@types/node": "^10.11.0",
+    "@types/node": "^10.17.51",
     "@types/nprogress": "0.0.29",
     "@types/qs": "^6.5.3",
-    "@types/jasmine-ajax": "^3.1.39",
     "atob": "^2.1.2",
     "body-parser": "^1.18.3",
     "colors": "^1.3.2",
@@ -108,6 +108,8 @@
     "cz-conventional-changelog": "^2.1.0",
     "express": "^4.16.4",
     "husky": "^1.0.1",
+    "jasmine-ajax": "^4.0.0",
+    "jasmine-core": "^3.4.0",
     "jest": "^24.8.0",
     "jest-config": "^24.8.0",
     "lint-staged": "^8.0.0",
@@ -139,8 +141,6 @@
     "typescript": "^3.4.5",
     "webpack": "^4.28.4",
     "webpack-dev-middleware": "^3.5.0",
-    "webpack-hot-middleware": "^2.24.3",
-    "jasmine-ajax": "^4.0.0",
-    "jasmine-core": "^3.4.0"
+    "webpack-hot-middleware": "^2.24.3"
   }
 }
